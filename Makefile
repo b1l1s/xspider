@@ -18,10 +18,11 @@ SRC_DIR := src
 OUT_DIR := obj obj/spiderhttpc obj/$(TYPE)
 
 define makedownload
-	make -s code.bin DEFINES="-D$(1) -D$(2)" TYPE=$(3)
-	mkdir -p out/$(1)
-	mv code.bin out/$(1)/$(3).bin
-	rm -rf obj
+	@echo "Building \"$(3)\" for $(1)"
+	@make -s obj/code.bin DEFINES="-D$(1) -D$(2)" TYPE=$(3)
+	@mkdir -p out/$(1)
+	@mv obj/code.bin out/$(1)/$(3).bin
+	@rm -rf $(OBJ_DIR)
 endef
 
 SRCS := $(wildcard $(SRC_DIR)/spiderhttpc/*.c) $(wildcard $(SRC_DIR)/$(TYPE)/*.c)
@@ -43,16 +44,15 @@ single:
 	$(call makedownload,SPIDER_9X_TW,NO_SPIDER_DG,$@)
 
 obj/%.o: src/%.c | dirs
-	@echo $(CFLAGS)
 	$(CC) -c -o $@ $< $(CFLAGS)
 
 obj/%.o: src/%.s | dirs
 	$(CC) -x assembler-with-cpp $(ARCH) -c $^ -o $@
 
-code.elf: $(OBJS)
+obj/code.elf: $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
-code.bin: code.elf
+obj/code.bin: obj/code.elf
 	$(OC) $(OCFLAGS) -O binary $^ $@
 
 dirs: ${OUT_DIR}
