@@ -8,7 +8,7 @@ OC=arm-none-eabi-objcopy
 INCLUDES=-I. -I./include
 
 ARCH=-march=armv6k -mtune=mpcore -mlittle-endian
-CFLAGS:=-fshort-wchar -fomit-frame-pointer -ffast-math -std=gnu99 -Os -ffunction-sections -g -mword-relocations -DSPIDER_4X $(ARCH) $(INCLUDES) $(DEFINES)
+CFLAGS:=-fshort-wchar -fomit-frame-pointer -ffast-math -std=gnu99 -Os -ffunction-sections -g -mword-relocations $(ARCH) $(INCLUDES) $(DEFINES)
 LDFLAGS:=-nostartfiles --specs=crs.specs -Wl,-gc-sections $(ARCH)
 OCFLAGS=
 
@@ -19,8 +19,8 @@ OUT_DIR := obj obj/spiderhttpc obj/$(TYPE)
 
 define makedownload
 	make -s code.bin DEFINES="-D$(1) -D$(2)" TYPE=$(3)
-	mkdir -p $(1)
-	mv code.bin $(1)/$(3).bin
+	mkdir -p out/$(1)
+	mv code.bin out/$(1)/$(3).bin
 	rm -rf obj
 endef
 
@@ -31,7 +31,7 @@ single:
 	$(call makedownload,SPIDER_4X,NO_SPIDER_DG,$@)
 	$(call makedownload,SPIDER_5X,NO_SPIDER_DG,$@)
 	$(call makedownload,SPIDER_9X,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_41_CN,NO_SPIDER_DG,$@)
+	$(call makedownload,SPIDER_42_CN,NO_SPIDER_DG,$@)
 	$(call makedownload,SPIDER_45_CN,NO_SPIDER_DG,$@)
 	$(call makedownload,SPIDER_5X_CN,NO_SPIDER_DG,$@)
 	$(call makedownload,SPIDER_9X_CN,NO_SPIDER_DG,$@)
@@ -63,4 +63,4 @@ ${OUT_DIR}:
 .PHONY: clean
 
 clean:
-	rm -rf *~ obj *.elf *.bin
+	rm -rf *~ obj out *.elf *.bin
