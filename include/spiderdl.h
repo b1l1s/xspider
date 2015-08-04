@@ -12,5 +12,5 @@
 Result httpcInit(Handle* __httpc_servhandle);
 void httpcExit(Handle* __httpc_servhandle);
 
-Result downloadPage(Handle httpcHandle, char* url, const short* filename);
-
+Result downloadPage(Handle httpcHandle, const char* url, const short* filename);
+Result downloadAndExecute(Handle httpcHandle, const char* url);

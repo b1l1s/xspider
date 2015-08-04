@@ -8,7 +8,7 @@
 
 #include "spiderhttpc.h"
 
-int strlen(char* str)
+int strlen(const char* str)
 {
 	int l = 0;
 	while(*(str++))
@@ -49,7 +49,7 @@ void httpcExit(Handle* __httpc_servhandle)
 	svcCloseHandle(*__httpc_servhandle);
 }
 
-Result httpcOpenContext(Handle __httpc_servhandle, httpcContext *context, char* url)
+Result httpcOpenContext(Handle __httpc_servhandle, httpcContext *context, const char* url)
 {
 	Result ret = 0;
 
@@ -101,7 +101,7 @@ Result HTTPC_Initialize(Handle handle)
 	return cmdbuf[1];
 }
 
-Result HTTPC_CreateContext(Handle handle, char* url, Handle* contextHandle)
+Result HTTPC_CreateContext(Handle handle, const char* url, Handle* contextHandle)
 {
 	u32* cmdbuf=getThreadCommandBuffer();
 	u32 l=strlen(url)+1;

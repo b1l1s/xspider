@@ -53,10 +53,10 @@ extern int (*GSPGPU_FlushDataCache)(void *, unsigned int);
 extern int (*svcSleepThread)(unsigned long long);
 extern int (*srvGetServiceHandle)(Handle *, char *, unsigned int, unsigned int);
 
-int strlen(char* str);
+int strlen(const char* str);
 
 Result HTTPC_Initialize(Handle handle);
-Result HTTPC_CreateContext(Handle handle, char* url, Handle* contextHandle);
+Result HTTPC_CreateContext(Handle handle, const char* url, Handle* contextHandle);
 Result HTTPC_InitializeConnectionSession(Handle handle, Handle contextHandle);
 Result HTTPC_CloseContext(Handle handle, Handle contextHandle);
 Result HTTPC_BeginRequest(Handle handle, Handle contextHandle);
@@ -67,7 +67,7 @@ Result HTTPC_GetResponseStatusCode(Handle handle, Handle contextHandle, u32* out
 Result httpcInit(Handle* __httpc_servhandle);
 void httpcExit(Handle* __httpc_servhandle);
 
-Result httpcOpenContext(Handle __httpc_servhandle, httpcContext *context, char* url);
+Result httpcOpenContext(Handle __httpc_servhandle, httpcContext *context, const char* url);
 Result httpcCloseContext(Handle __httpc_servhandle, httpcContext *context);
 
 Result inline httpcBeginRequest(httpcContext *context)

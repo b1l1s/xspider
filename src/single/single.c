@@ -4,12 +4,12 @@ int main()
 {
 	Handle httpcHandle = 0;
 
-	char * url = "http://slashdot.org";
-	unsigned short * filename = L"dmc:/file.html";
+	const char* url = "http://slashdot.org";
+	const short* filename = L"dmc:/file.html";
 
 	httpcInit(&httpcHandle);
 
-	downloadPage(httpcHandle, url, (const short *) filename);
+	downloadPage(httpcHandle, url, filename);
 
 	httpcExit(&httpcHandle);
 

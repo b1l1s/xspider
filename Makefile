@@ -28,20 +28,26 @@ endef
 SRCS := $(wildcard $(SRC_DIR)/spiderhttpc/*.c) $(wildcard $(SRC_DIR)/$(TYPE)/*.c)
 OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
-single:
-	$(call makedownload,SPIDER_4X,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_5X,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_9X,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_42_CN,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_45_CN,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_5X_CN,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_9X_CN,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_4X_KR,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_5X_KR,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_9X_KR,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_4X_TW,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_5X_TW,NO_SPIDER_DG,$@)
-	$(call makedownload,SPIDER_9X_TW,NO_SPIDER_DG,$@)
+single: TARGET = single
+single: download
+
+dlx: TARGET = dlx
+dlx: download
+
+download:
+	$(call makedownload,SPIDER_4X,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_5X,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_9X,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_42_CN,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_45_CN,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_5X_CN,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_9X_CN,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_4X_KR,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_5X_KR,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_9X_KR,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_4X_TW,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_5X_TW,NO_SPIDER_DG,$(TARGET))
+	$(call makedownload,SPIDER_9X_TW,NO_SPIDER_DG,$(TARGET))
 
 obj/%.o: src/%.c | dirs
 	$(CC) -c -o $@ $< $(CFLAGS)
@@ -50,6 +56,7 @@ obj/%.o: src/%.s | dirs
 	$(CC) -x assembler-with-cpp $(ARCH) -c $^ -o $@
 
 obj/code.elf: $(OBJS)
+	@echo $(OBJS)
 	$(CC) -o $@ $^ $(LDFLAGS)
 
 obj/code.bin: obj/code.elf
