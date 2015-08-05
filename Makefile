@@ -25,14 +25,23 @@ define makedownload
 	@rm -rf $(OBJ_DIR)
 endef
 
+define makedownloadwithrop
+	@echo "Building \"$(5)\" for $(2)"
+	@make -s obj/code.bin DEFINES="-D$(2) -D$(4)" TYPE=$(5)
+	@make -s -C rop3ds DownloadCode.dat ASFLAGS="-D$(2) -D$(4) -DARM_CODE=../obj/code.bin"
+	@mv rop3ds/DownloadCode.dat out/$(1).rop
+	@rm obj/code.bin
+	@rm -rf $(OBJ_DIR)
+endef	
+
 SRCS := $(wildcard $(SRC_DIR)/spiderhttpc/*.c) $(wildcard $(SRC_DIR)/$(TYPE)/*.c)
 OBJS := $(patsubst $(SRC_DIR)/%.c, $(OBJ_DIR)/%.o, $(SRCS))
 
 single: TARGET = single
-single: download
+single: download downloadwithrop
 
 dlx: TARGET = dlx
-dlx: download
+dlx: download downloadwithrop
 
 download:
 	$(call makedownload,SPIDER_4X,NO_SPIDER_DG,$(TARGET))
@@ -48,7 +57,23 @@ download:
 	$(call makedownload,SPIDER_4X_TW,NO_SPIDER_DG,$(TARGET))
 	$(call makedownload,SPIDER_5X_TW,NO_SPIDER_DG,$(TARGET))
 	$(call makedownload,SPIDER_9X_TW,NO_SPIDER_DG,$(TARGET))
-
+	
+downloadwithrop:
+	$(call makedownloadwithrop,17498,SPIDER_4X,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithropd,17538C45,SPIDER_45_CN,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17538C42,SPIDER_42_CN,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17538K,SPIDER_4X_KR,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17538T,SPIDER_4X_TW,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17552,SPIDER_5X,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17552C,SPIDER_5X_CN,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17552K,SPIDER_5X_KR,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17552T,SPIDER_5X_TW,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17567,SPIDER_9X,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17567C,SPIDER_9X_CN,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17567K,SPIDER_9X_KR,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17567T,SPIDER_9X_TW,0,NO_SPIDER_DG,$(TARGET))
+	@cp rop3ds/download.html.template out/download.html	
+	
 obj/%.o: src/%.c | dirs
 	$(CC) -c -o $@ $< $(CFLAGS)
 
