@@ -60,7 +60,7 @@ download:
 	
 downloadwithrop:
 	$(call makedownloadwithrop,17498,SPIDER_4X,0,NO_SPIDER_DG,$(TARGET))
-	$(call makedownloadwithropd,17538C45,SPIDER_45_CN,0,NO_SPIDER_DG,$(TARGET))
+	$(call makedownloadwithrop,17538C45,SPIDER_45_CN,0,NO_SPIDER_DG,$(TARGET))
 	$(call makedownloadwithrop,17538C42,SPIDER_42_CN,0,NO_SPIDER_DG,$(TARGET))
 	$(call makedownloadwithrop,17538K,SPIDER_4X_KR,0,NO_SPIDER_DG,$(TARGET))
 	$(call makedownloadwithrop,17538T,SPIDER_4X_TW,0,NO_SPIDER_DG,$(TARGET))
