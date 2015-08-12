@@ -1,7 +1,11 @@
 # Project files
 obj
+out
 *.bin
 *.elf
 
 # Programming tools leftovers
 *.swp
+.settings
+.cproject
+.project

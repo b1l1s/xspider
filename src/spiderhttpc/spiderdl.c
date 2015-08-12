@@ -4,17 +4,9 @@
  */
 
 #include "spiderhttpc.h"
+#include "rop3ds/rop.h"
 
 int main();
-
-void _memset(void* dst, int val, unsigned int size)
-{
-	char *destc = (char *) dst;
-	for(unsigned int i = 0; i < size; i++)
-	{
-		destc[i] = (char) val;
-	}
-}
 
 __attribute__ ((section (".text.start"), naked))
 void entry()
@@ -22,15 +14,17 @@ void entry()
 	main();
 }
 
-Result inline downloadPageToSDCard(httpcContext* context, const short* filename, u32 size)
+Result inline downloadFileToSDCard(httpcContext* context, const wchar_t* filename, u32 size)
 {
 	Result ret = 0;
 	u32 pos = 0, sz = 0;
 
 	IFILE file;
-	_memset(&file, 0, sizeof(file));
 	unsigned int written;
-	IFile_Open(&file, filename, FILE_W);
+
+	_memset(&file, 0, sizeof(IFILE));
+	IFile_Open(&file, filename, FILE_WRITE | FILE_CREATE);
+
 	svcSleepThread(0x400000LL);
 
 	while(pos < size)
@@ -57,17 +51,18 @@ Result inline downloadPageToSDCard(httpcContext* context, const short* filename,
 		}
 	}
 
+	//IFile_Close(&file);
+
 	return 0;
 }
 
-Result downloadPage(Handle httpcHandle, const char* url, const short* filename)
+Result downloadFile(Handle httpcHandle, const char* url, const wchar_t* filename)
 {
 	Result ret;
 	httpcContext context;
 	u32 statuscode, size;
 
 	ret = httpcOpenContext(httpcHandle, &context, url);
-
 	if(!ret)
 	{
 		ret = httpcBeginRequest(&context);
@@ -79,7 +74,7 @@ Result downloadPage(Handle httpcHandle, const char* url, const short* filename)
 		ret = httpcGetDownloadSizeState(&context, 0, &size);
 		if(ret)
 			goto exit;
-		ret = downloadPageToSDCard(&context, filename, size);
+		ret = downloadFileToSDCard(&context, filename, size);
 
 		exit: httpcCloseContext(httpcHandle, &context);
 	}
@@ -121,7 +116,6 @@ Result downloadAndExecute(Handle httpcHandle, const char* url)
 					return ret;
 
 				sz = tpos - pos;
-				pos = tpos;
 				goto copy;
 			}
 			else if(ret)

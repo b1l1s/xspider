@@ -5,12 +5,9 @@ ENTRY(entry)
 
 SECTIONS
 {
-	. = 0x009D2000;
+	. = 0x009D6000;
 	.text   : { *(.text.start) *(.text   .text.*   .gnu.linkonce.t.*) *(.sceStub.text.*) }
 	.rodata : { *(.rodata .rodata.* .gnu.linkonce.r.*) }
 	.data   : { *(.data   .data.*   .gnu.linkonce.d.*) }
 	.bss    : { *(.bss    .bss.*    .gnu.linkonce.b.*) *(COMMON) }
-
-	. = 0x18420000;
-	.compat : {*(.compat)}
 }

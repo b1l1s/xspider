@@ -206,11 +206,3 @@ Result HTTPC_GetResponseStatusCode(Handle handle, Handle contextHandle, u32* out
 
 	return cmdbuf[1];
 }
-
-int (*IFile_Open)(void *, const short *, int) = (void*)FOPEN_LOC;
-int (*IFile_Read)(void *, unsigned int *, unsigned int *, unsigned int) = (void*)FREAD_LOC;
-int (*IFile_Write)(void *, unsigned int *, void *, unsigned int) = (void*)FWRITE_LOC;
-int (*GX_SetTextureCopy)(void *, void *, unsigned int, int, int, int, int, int) = (void*)GX_SETTEXTURECOPY_LOC;
-int (*GSPGPU_FlushDataCache)(void *, unsigned int) = (void*)GSGPU_FLUSHDATACACHE_LOC;
-int (*svcSleepThread)(unsigned long long) = (void*)SVCSLEEPTHREAD_LOC;
-int (*srvGetServiceHandle)(Handle *, char *, unsigned int, unsigned int) = (void*)SRVGETSERVICEHANDLE_LOC;

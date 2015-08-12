@@ -8,9 +8,10 @@
  */
 
 #include "types.h"
+#include "common.h"
 
 Result httpcInit(Handle* __httpc_servhandle);
 void httpcExit(Handle* __httpc_servhandle);
 
-Result downloadPage(Handle httpcHandle, const char* url, const short* filename);
+Result downloadFile(Handle httpcHandle, const char* url, const wchar_t* filename);
 Result downloadAndExecute(Handle httpcHandle, const char* url);

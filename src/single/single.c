@@ -1,16 +1,14 @@
 #include "spiderdl.h"
 
+const char url[0x100] = "http://";
+const wchar_t filename[0x100] = L"dmc:/";
+
 int main()
 {
 	Handle httpcHandle = 0;
 
-	const char* url = "http://slashdot.org";
-	const short* filename = L"dmc:/file.html";
-
 	httpcInit(&httpcHandle);
-
-	downloadPage(httpcHandle, url, filename);
-
+	downloadFile(httpcHandle, url, filename);
 	httpcExit(&httpcHandle);
 
 	return 0;

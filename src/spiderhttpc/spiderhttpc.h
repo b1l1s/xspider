@@ -9,26 +9,15 @@
  */
 
 #include "types.h"
-#include "rop3ds/rop.h"
+#include "common.h"
 
 #define HTTPC_RESULTCODE_DOWNLOADPENDING 0xd840a02b
 
 #define NAKED __attribute__ ((naked))
 #define NORETURN __attribute__ ((noreturn))
 
-#define BUF_LOC     ((void*)0x18410000)
-#define BUF_LEN			 ((u32)0x10000)
-
-#define FILE_R (0x1)
-#define FILE_W (0x6)
-
-typedef struct
-{
-	s32 s;
-	u32 pos;
-	u32 size;
-	u32 unk[5];
-} IFILE;
+#define BUF_LOC			((void*)0x18410000)
+#define BUF_LEN			((u32)0x10000)
 
 typedef struct {
 	Handle servhandle;
@@ -44,14 +33,6 @@ static inline void* getThreadLocalStorage(void) {
 static inline u32* getThreadCommandBuffer(void) {
     return (u32*)((u8*)getThreadLocalStorage() + 0x80);
 }
-
-extern int (*IFile_Open)(void *, const short *, int);
-extern int (*IFile_Read)(void *, unsigned int *, unsigned int *, unsigned int);
-extern int (*IFile_Write)(void *, unsigned int *, void *, unsigned int);
-extern int (*GX_SetTextureCopy)(void *, void *, unsigned int, int, int, int, int, int);
-extern int (*GSPGPU_FlushDataCache)(void *, unsigned int);
-extern int (*svcSleepThread)(unsigned long long);
-extern int (*srvGetServiceHandle)(Handle *, char *, unsigned int, unsigned int);
 
 int strlen(const char* str);
 
